@@ -1,0 +1,23 @@
+{
+  "name": "atlas",
+  "version": "1.0.0",
+  "description": "Atlas CRM tools and Venu business theme creation.",
+  "author": {
+    "name": "Venu"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Atlas",
+    "shortDescription": "Use Atlas CRM and create business themes.",
+    "longDescription": "Connect to Atlas and create branded Venu demo themes with researched colors, typography and prepared logos.",
+    "developerName": "Venu",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Create a theme for a business in Atlas.",
+      "Find a business and show its saved theme."
+    ]
+  },
+  "mcpServers": "./.mcp.json",
+  "repository": "https://github.com/venuhq/atlas-plugin"
+}

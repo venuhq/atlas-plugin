@@ -1,0 +1,12 @@
+interface:
+  display_name: "Create business theme"
+  short_description: "Research, save and apply Venu business themes"
+  default_prompt: "Use $create-business-theme to prepare a theme for a business in Atlas."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "atlas"
+      description: "Atlas business lookup, theme drafts, image uploads and demo merchant application"
+      transport: "streamable_http"
+      url: "https://atlas.admin.venuhq.com/mcp"
