@@ -5,7 +5,7 @@ description: Research a business's branding, prepare logo variants, and save or 
 
 # Create a business theme
 
-Use Atlas MCP for business lookup, image upload URLs, draft storage and theme application. Use the available browser and shell for research and image processing. User instructions determine scope and take precedence over this workflow's preferences.
+Use Atlas MCP for business lookup, image upload URLs, draft storage and theme application. Use the available browser and shell for research and uploads, and the agent’s built-in imagegen skill for logo adjustments. User instructions determine scope and take precedence over this workflow's preferences.
 
 ## Find the business and existing theme
 
@@ -19,7 +19,7 @@ Use the business's own website and, when needed, business-owned social pages. Tr
 
 Read CSS variables, stylesheets, SVGs and logo pixels rather than guessing colors. Select the closest supported font from [theme fields](references/theme.md). Measure foreground/background and primary_foreground/primary contrast; both should reach 4.5:1. Run `python3 scripts/contrast.py '#112233' '#ffffff'` relative to this skill directory. Set accent equal to primary. Keep the logo legible on the background.
 
-Read [logo preparation](references/logos.md) before preparing images. Use genuine business-owned logos, preserving aspect ratio. Produce 8-bit lossless WebP variants: 1000×500 logo, 800×800 square logo, and 1032×336 wallet logo. Inspect the final files visually, especially after background removal. Do not invent or redraw a missing logo. If none is usable, use an empty `logo_image` and omit the optional image fields; explain the limitation.
+Read [logo preparation](references/logos.md) before preparing images. Prefer an official logo. If none can be found, use the profile picture from the business’s official Facebook or Instagram account. Open and view candidate images before selecting them; verify that they represent the correct business and are legible, complete and suitable for the theme. If any visual changes are needed—including background removal, cleanup, cropping or padding—load and use the agent’s built-in imagegen skill to edit the selected source, preserving its branding. Do not substitute Cloudflare segmentation or shell image-editing commands for imagegen. Produce 8-bit lossless WebP variants: 1000×500 logo, 800×800 square logo, and 1032×336 wallet logo. View every final variant against the theme background before uploading or using it, including reused images. Do not invent a new logo when neither an official logo nor an official social profile picture is usable. If none is usable, use an empty `logo_image` and omit the optional image fields; explain the limitation.
 
 ## Upload, save and apply
 

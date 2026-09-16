@@ -1,45 +1,31 @@
 # Logo preparation
 
-## Find the original
+## Find and view the source
 
-Use the business's website or owned social profiles. Prefer the highest resolution actual logo: SVG, an image's largest `srcset` candidate, CSS background, or brand asset. Inspect rendered pages when assets are loaded by JavaScript. Icons, manifests and social preview images are fallbacks when there is no better original. Do not take an unrelated directory's or stock site's logo.
+Prefer an official logo from the business’s website or owned social profiles. Look for the highest resolution actual logo: SVG, an image’s largest `srcset` candidate, CSS background, or brand asset. Inspect rendered pages when assets are loaded by JavaScript.
 
-Download assets into a task-specific directory. Available image tools vary: use ImageMagick 7 (`magick`), ImageMagick 6 (`convert`/`identify`), or an equivalent installed raster tool. SVG sources should be rasterized before uploading, for consistent terminal rendering. With librsvg and ImageMagick 6:
+If no official logo can be found, use the profile picture from the business’s official Facebook or Instagram account. Verify that the account belongs to the correct business/location using its name, website, address or other matching details. Prefer the highest resolution profile picture available. Do not use an unrelated account’s, directory’s or stock site’s image.
 
-```sh
-rsvg-convert logo.svg --width 1200 --keep-aspect-ratio --format png --output logo-raw.png
-convert logo-raw.png -depth 8 -strip PNG32:logo.png
-```
+Open and visually inspect candidate images before choosing one. A filename, image URL or dimension check alone is not enough. Check that the image identifies the business, has readable lettering and a complete mark, and will work against the theme background. A suitable official social profile picture is a valid fallback even if it is not a standalone logo. Preserve the downloaded original in a task-specific directory.
 
-Prefer 8-bit RGB/RGBA, sRGB, non-interlaced intermediates. Some terminals do not reliably render 16-bit PNG. Preserve the original download and use different output filenames.
+## Adjust with imagegen
 
-## Opaque backgrounds
+If any visual changes are needed, load the agent’s built-in imagegen skill and follow its editing workflow. This includes background removal, cleanup, repairing distracting artifacts, cropping, resizing, adding padding, or adapting the source to the required canvases. Supply the actual source image as the editing reference; do not ask imagegen to invent a replacement logo from a description.
 
-Prefer genuine transparent assets. If only an opaque original is available, upload it using `create_theme_image_upload` and the shell procedure in `SKILL.md`, then optionally request Cloudflare's foreground segmentation:
+Keep the business’s lettering, spelling, colors and identifying mark intact unless the user requests a brand change. Ask for the specific adjustment needed, such as removing an opaque background while preserving all lettering, or centering the intact mark on a transparent canvas with padding. Do not use Cloudflare foreground segmentation, ImageMagick or another shell image editor to perform these visual adjustments.
 
-```sh
-curl --fail --silent --show-error --location \
-  "https://imagedelivery.net/k3593Y7l0NN1Ho1blv02Gw/$ORIGINAL_IMAGE_ID/segment=foreground,format=png" \
-  --output logo-transparent.png
-```
+View every edited result and compare it with the original. Background removal can erase letters or damage a mark; reject those results and revise the edit. If a transparent treatment cannot preserve the source, retain its intact background when suitable. If imagegen is unavailable, use an already suitable asset unchanged or report that cleanup is blocked rather than silently switching editing methods.
 
-The account hash above is a public image-delivery identifier, not a credential. Inspect the downloaded format and pixels. If the transform is unavailable, retry at most twice; otherwise keep the original. Segmentation can erase letters or damage a mark. A padded intact original on a compatible background is better than a damaged transparent logo.
+## Prepare and inspect three variants
 
-## Prepare three variants
+Preserve aspect ratio and center the mark with visible padding. Required canvases:
 
-Preserve aspect ratio and center the mark with visible padding. Trim only verified empty margins. Export 8-bit lossless WebP. These commands leave a 10% margin around the mark:
+- `logo_image`: 1000×500.
+- `square_logo_image`: 800×800.
+- `wallet_image`: 1032×336.
 
-```sh
-convert logo.png -trim +repage -resize 900x450 -background none \
-  -gravity center -extent 1000x500 -colorspace sRGB -depth 8 -strip \
-  -define webp:lossless=true logo.webp
-convert logo.png -trim +repage -resize 720x720 -background none \
-  -gravity center -extent 800x800 -colorspace sRGB -depth 8 -strip \
-  -define webp:lossless=true square-logo.webp
-convert logo.png -trim +repage -resize 928x302 -background none \
-  -gravity center -extent 1032x336 -colorspace sRGB -depth 8 -strip \
-  -define webp:lossless=true wallet-logo.webp
-identify logo.webp square-logo.webp wallet-logo.webp
-```
+Use imagegen for any visual adaptation to these canvases. Prefer transparent backgrounds when they preserve the mark and remain legible. Export 8-bit lossless WebP for terminal compatibility. Shell tools may inspect dimensions or perform format/bit-depth conversion without changing the composition or pixels’ appearance; they must not perform cleanup, background removal or other visual edits. If the available imagegen output cannot meet a required canvas size, report the limitation instead of uploading a mismatched variant.
 
-Use `magick` instead of `convert` for ImageMagick 7. Inspect each output against the theme background. Adjust padding for the actual mark if needed. Upload each variant separately through its own MCP-issued upload URL and store the matching image ID. Original-image and segmentation uploads are intermediates, not the final variant IDs.
+Open and view all three final files against the selected theme background before upload. Check legibility, intact lettering, aspect ratio, padding, clipping and unwanted artifacts. This visual inspection also applies to existing image IDs being reused: view their delivery images before deciding they are suitable.
+
+Upload each approved variant through a separate `create_theme_image_upload` URL using the shell procedure in `SKILL.md`. Store its matching image ID. Only use an empty `logo_image` and omit the optional image fields after neither an official logo nor an official Facebook/Instagram profile picture is usable; explain the limitation to the user.

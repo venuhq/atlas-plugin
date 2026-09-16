@@ -32,7 +32,7 @@ Refresh the Atlas plugin in the plugin browser as needed and start a new session
 
 The skill researches the business's own branding, checks text contrast, prepares three logo variants, obtains one-time upload URLs through MCP, uploads local files from the shell, and saves a complete theme draft. Applying a theme is a separate action that changes the configured demo merchant's public name and theme.
 
-Local theme creation needs Python 3 for the bundled contrast helper, `curl` for uploads, a browser, and an image-processing tool such as ImageMagick. SVG rasterization may use `rsvg-convert` or another available renderer. Atlas can alternatively run its hosted theme generator through `request_business_theme_generation`.
+Local theme creation needs Python 3 for the bundled contrast helper, `curl` for uploads, a browser, and the agent’s built-in imagegen skill for any visual logo adjustments. Shell image utilities may be used for inspection and format conversion. When no official logo is available, the skill uses the business’s official Facebook or Instagram profile picture and visually checks it before use. Atlas can alternatively run its hosted theme generator through `request_business_theme_generation`.
 
 ## Repository layout
 
